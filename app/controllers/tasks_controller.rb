@@ -54,7 +54,7 @@ class TasksController < ApplicationController
   def task_params
     #シンボルはインスタンスを生成した時点で自動的に発生している
     #:taskとすでに生成している（newで）@taskは同じものだが,シンボルアクセスの方が高速
-    params.require(:task).permit(:content)
+    params.require(:task).permit(:content,:status)
   end
   
 end
