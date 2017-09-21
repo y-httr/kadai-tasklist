@@ -1,20 +1,20 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :require_user_logged_in
   
   def index
-    @tasks = Task.all.page(params[:page]).per(3)
+      @tasks = current_user.tasks.order("created_at DESC").page(params[:page]).per(3)
   end
   
   def show
   end
   
   def new
-    @task = Task.new
+    @task = current_user.tasks.build #form_for 用
   end
   
   def create
-    @task = Task.new(task_params)
-    
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = "Taskが正常に登録されました"
       redirect_to @task
@@ -48,7 +48,7 @@ class TasksController < ApplicationController
   private
   
   def set_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
   
   def task_params
